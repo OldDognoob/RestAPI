@@ -13,4 +13,12 @@ const db = mongoose.connection
 db.on('error',(error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
+//lets create our middleware
+app.use(express.json())
+
+//setting up our routes
+const subscribersRouter = require('/routes/subscribers')
+app.use('/subscribers', subscribersRouter)
+
+
 app.listen(3000, () => console.log('Server Started'))
