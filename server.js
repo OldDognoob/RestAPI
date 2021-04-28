@@ -17,7 +17,7 @@ db.once('open', () => console.log('Connected to Database'))
 app.use(express.json())
 
 //setting up our routes
-const subscribersRouter = require('/routes/subscribers')
+const subscribersRouter = require('./routes/subscribers')
 app.use('/subscribers', subscribersRouter)
 
 
