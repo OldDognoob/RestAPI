@@ -39,9 +39,13 @@ router.post('/', async (req, res) => {
 })
 // Updating one
 router.patch('/:id', getSubscriber, async (req, res) => {
+    // we check the request
+    // if the request.body,name is not equal with null
+    // the user actual past a name to us
     if (req.body.name != null) {
       res.subscriber.name = req.body.name
     }
+    // we do the same thing with the subscribedToChannel passed in
     if (req.body.subscribedToChannel != null) {
       res.subscriber.subscribedToChannel = req.body.subscribedToChannel
     }
