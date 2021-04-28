@@ -14,14 +14,18 @@ router.get('/', async (req, res)=>{
         // and had nothing to do with the user  or client API
         res.status(500).json({message: err.message})
     }
-});
+})
 // Getting one
-router.get('/', async (req, res) => {
+router.get('/:id', getSubscriber, (req, res) => {
+    res.json(res.subscriber)
+  })
+// Creating one
+router.post('/', async (req, res) => {
     const subscriber = new Subscriber({
-        name:req.body.name,
-        subscriberToChannel: req.body.subscribedToChannel
+        name: req.body.name,
+        subscribedToChannel: req.body.subscribedToChannel
     })
-    try{
+    try {
         const newSubscriber = await subscriber.save()
         // 201 means succesfully we create an object
         res.status(201).json(newSubscriber)
@@ -41,5 +45,22 @@ router.patch('/:id',(req,res)=>{
 router.delete('/:id', (req,res)=>{
 
 })
+
+//creating a middleware
+async function getSubscriber(req,res,next){
+  try{
+      // if there is no subscriber we need immediately leave this function
+      // and not move any further
+  subscriber = await Subscriber.findById(req.params.id)
+  if (subscriber == null){
+      return res.status(404).json({message: 'Cannot find subscriber'})
+  }
+  }catch (err){
+      // 500, means this is our fault
+   return res.status(500).json({message: err.message})
+  }
+  res.subscriber = subscriber
+  next()
+}
 
 module.exports = router
